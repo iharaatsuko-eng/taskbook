@@ -17,7 +17,6 @@
     --red: #B85C5C;
     --green: #5C8A6A;
     --border: #E0D9CF;
-    --tag-colors: #7A6A52, #5C8A6A, #6A7A9A, #8A6A7A, #7A8A5C, #9A7A5C;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -25,7 +24,6 @@
     background: var(--bg);
     color: var(--ink);
     min-height: 100vh;
-    padding: 0;
   }
   .header {
     background: var(--paper);
@@ -40,19 +38,15 @@
   }
   .header-title {
     font-family: 'Noto Serif JP', serif;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     font-weight: 400;
     letter-spacing: 0.1em;
-    color: var(--ink);
   }
-  .header-date {
-    font-size: 0.75rem;
-    color: var(--ink-muted);
-    letter-spacing: 0.05em;
-  }
-  .main { max-width: 680px; margin: 0 auto; padding: 1.5rem 1rem 6rem; }
+  .header-date { font-size: 0.875rem; color: var(--ink-muted); }
 
-  /* Input area */
+  .main { max-width: 640px; margin: 0 auto; padding: 1.5rem 1rem 6rem; }
+
+  /* 入力フォーム */
   .input-box {
     background: var(--paper);
     border: 1px solid var(--border);
@@ -61,64 +55,102 @@
     margin-bottom: 1.5rem;
     box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
-  .input-box textarea {
-    width: 100%;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 0.9rem;
-    color: var(--ink);
-    resize: none;
-    min-height: 72px;
-    line-height: 1.7;
+  .input-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
   }
-  .input-box textarea::placeholder { color: var(--ink-faint); }
+  .input-row input, .input-row select {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem 0.85rem;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 1rem;
+    background: var(--bg);
+    color: var(--ink);
+    outline: none;
+  }
+  .input-row input:focus, .input-row select:focus {
+    border-color: var(--accent);
+  }
+  #task-input { flex: 1; }
+  #project-select { width: 130px; flex-shrink: 0; }
   .input-footer {
     display: flex;
+    gap: 0.5rem;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--border);
   }
-  .input-hint { font-size: 0.72rem; color: var(--ink-muted); }
-  .btn-add {
+  #new-project-input {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem 0.85rem;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.95rem;
+    background: var(--bg);
+    color: var(--ink);
+    outline: none;
+    display: none;
+  }
+  #new-project-input:focus { border-color: var(--accent); }
+  .btn {
     background: var(--ink);
     color: var(--paper);
     border: none;
     border-radius: 8px;
-    padding: 0.5rem 1.1rem;
+    padding: 0.6rem 1.2rem;
     font-family: 'Noto Sans JP', sans-serif;
-    font-size: 0.82rem;
+    font-size: 0.95rem;
     cursor: pointer;
+    white-space: nowrap;
     transition: opacity 0.15s;
   }
-  .btn-add:hover { opacity: 0.8; }
-  .btn-add:disabled { opacity: 0.4; cursor: default; }
-
-  /* Loading */
-  .loading-bar {
-    height: 2px;
-    background: var(--border);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-bottom: 1.5rem;
-    display: none;
+  .btn:hover { opacity: 0.8; }
+  .btn-outline {
+    background: transparent;
+    color: var(--ink-muted);
+    border: 1px solid var(--border);
   }
-  .loading-bar.active { display: block; }
-  .loading-bar::after {
-    content: '';
-    display: block;
-    height: 100%;
-    width: 40%;
-    background: var(--accent);
-    border-radius: 2px;
-    animation: slide 1s infinite;
-  }
-  @keyframes slide { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
+  .btn-outline:hover { background: var(--bg); opacity: 1; }
 
-  /* Project sections */
+  /* 持ち越しバー */
+  .carryover-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #FDF5E8;
+    border: 1px solid #EDD9B8;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+    color: #8A6030;
+    gap: 0.75rem;
+  }
+  .btn-carryover {
+    background: #8A6030;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 0.9rem;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .btn-carryover:hover { opacity: 0.85; }
+
+  /* 統計 */
+  .stats-bar {
+    display: flex; gap: 1rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+  }
+  .stats-bar strong { color: var(--ink); font-weight: 500; }
+
+  /* プロジェクト */
   .projects-area { display: flex; flex-direction: column; gap: 1.25rem; }
   .project-block {
     background: var(--paper);
@@ -136,26 +168,23 @@
     cursor: pointer;
     user-select: none;
   }
-  .project-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
+  .project-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
   .project-name {
     font-family: 'Noto Serif JP', serif;
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 400;
     letter-spacing: 0.05em;
     flex: 1;
   }
   .project-count {
-    font-size: 0.72rem;
+    font-size: 0.82rem;
     color: var(--ink-muted);
     background: var(--bg);
     padding: 2px 8px;
     border-radius: 99px;
   }
   .project-toggle { font-size: 0.65rem; color: var(--ink-faint); }
+
   .task-list { padding: 0.5rem 0; }
   .task-item {
     display: flex;
@@ -164,13 +193,13 @@
     padding: 0.6rem 1.1rem;
     border-bottom: 1px solid var(--bg);
     transition: background 0.1s;
-    position: relative;
   }
   .task-item:last-child { border-bottom: none; }
   .task-item:hover { background: var(--bg); }
   .task-item.done .task-label { text-decoration: line-through; color: var(--ink-faint); }
+
   .task-cb {
-    width: 16px; height: 16px;
+    width: 17px; height: 17px;
     border: 1px solid var(--ink-faint);
     border-radius: 3px;
     flex-shrink: 0;
@@ -179,10 +208,7 @@
     display: flex; align-items: center; justify-content: center;
     transition: background 0.12s, border-color 0.12s;
   }
-  .task-cb.checked {
-    background: var(--green);
-    border-color: var(--green);
-  }
+  .task-cb.checked { background: var(--green); border-color: var(--green); }
   .task-cb.checked::after {
     content: '';
     width: 8px; height: 5px;
@@ -191,21 +217,15 @@
     transform: rotate(-45deg) translateY(-1px);
     display: block;
   }
-  .task-body { flex: 1; }
-  .task-label { font-size: 0.875rem; line-height: 1.6; color: var(--ink); }
-  .task-meta {
-    display: flex; gap: 0.5rem; align-items: center; margin-top: 3px; flex-wrap: wrap;
-  }
-  .task-badge {
-    font-size: 0.68rem;
+  .task-label { font-size: 1rem; line-height: 1.7; flex: 1; }
+  .carryover-badge {
+    font-size: 0.78rem;
     padding: 1px 7px;
     border-radius: 99px;
-    background: var(--accent-light);
-    color: var(--accent);
-  }
-  .task-badge.carryover {
     background: #FDF0E0;
     color: #A0703A;
+    margin-left: 6px;
+    white-space: nowrap;
   }
   .task-del {
     opacity: 0;
@@ -216,54 +236,25 @@
     font-size: 0.8rem;
     padding: 2px 4px;
     transition: opacity 0.15s, color 0.15s;
+    flex-shrink: 0;
   }
   .task-item:hover .task-del { opacity: 1; }
   .task-del:hover { color: var(--red); }
 
-  /* Carry-over bar */
-  .carryover-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #FDF5E8;
-    border: 1px solid #EDD9B8;
-    border-radius: 10px;
-    padding: 0.75rem 1rem;
-    margin-bottom: 1.25rem;
-    font-size: 0.82rem;
-    color: #8A6030;
-  }
-  .btn-carryover {
-    background: #8A6030;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 0.35rem 0.85rem;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 0.78rem;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-  .btn-carryover:hover { opacity: 0.85; }
-
-  /* Empty state */
+  /* 空 */
   .empty-state {
     text-align: center;
     padding: 3rem 1rem;
     color: var(--ink-muted);
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     line-height: 2;
   }
-  .empty-state .big { font-family: 'Noto Serif JP', serif; font-size: 1.5rem; color: var(--ink-faint); margin-bottom: 0.5rem; }
-
-  /* Stats bar */
-  .stats-bar {
-    display: flex; gap: 1rem;
-    margin-bottom: 1.25rem;
-    font-size: 0.78rem;
-    color: var(--ink-muted);
+  .empty-big {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.5rem;
+    color: var(--ink-faint);
+    margin-bottom: 0.5rem;
   }
-  .stat strong { color: var(--ink); font-weight: 500; }
 </style>
 </head>
 <body>
@@ -274,192 +265,164 @@
 </div>
 
 <div class="main">
+
   <div class="input-box">
-    <textarea id="task-input" placeholder="今日のタスクをざっくり入力してください&#10;例：KUBERUに召集かける、コーヒー豆買いに行く、レポート作成"></textarea>
+    <div class="input-row">
+      <input type="text" id="task-input" placeholder="タスクを入力..." />
+      <select id="project-select"></select>
+    </div>
     <div class="input-footer">
-      <span class="input-hint">AIが自動でプロジェクト別に整理します</span>
-      <button class="btn-add" id="btn-add" onclick="addTasks()">整理する ↗</button>
+      <input type="text" id="new-project-input" placeholder="新しいプロジェクト名..." />
+      <button class="btn btn-outline" id="btn-newproj" onclick="toggleNewProject()">＋ プロジェクト</button>
+      <button class="btn" onclick="addTask()">追加</button>
     </div>
   </div>
-
-  <div class="loading-bar" id="loading-bar"></div>
 
   <div id="carryover-area"></div>
 
   <div class="stats-bar" id="stats-bar" style="display:none">
-    <span class="stat">今日 <strong id="stat-total">0</strong>件</span>
-    <span class="stat">完了 <strong id="stat-done">0</strong>件</span>
-    <span class="stat">残り <strong id="stat-left">0</strong>件</span>
+    <span>今日 <strong id="stat-total">0</strong>件</span>
+    <span>完了 <strong id="stat-done">0</strong>件</span>
+    <span>残り <strong id="stat-left">0</strong>件</span>
   </div>
 
   <div class="projects-area" id="projects-area">
     <div class="empty-state">
-      <div class="big">✎</div>
-      今日のタスクを入力してください
+      <div class="empty-big">✎</div>
+      タスクを入力してください
     </div>
   </div>
+
 </div>
 
 <script>
-// ─── Storage ───────────────────────────────────────────────
-const STORE_KEY = 'taskbook_v2';
-
-function loadData() {
-  try {
-    const raw = localStorage.getItem(STORE_KEY);
-    return raw ? JSON.parse(raw) : { tasks: [], date: today() };
-  } catch { return { tasks: [], date: today() }; }
-}
-
-function saveData(data) {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch {}
-}
+const STORE_KEY = 'taskbook_simple_v1';
+const PROJECT_COLORS = ['#7A6A52','#5C8A6A','#6A7A9A','#8A6A7A','#7A8A5C','#9A7A5C','#6A8A7A','#8A7A52'];
 
 function today() {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
-// ─── State ─────────────────────────────────────────────────
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    return raw ? JSON.parse(raw) : { tasks: [], projects: ['その他'], date: today() };
+  } catch { return { tasks: [], projects: ['その他'], date: today() }; }
+}
+
+function saveData() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch {}
+}
+
 let data = loadData();
 let collapsed = {};
+let showNewProject = false;
 
-// ─── Init ──────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+// ─── 初期化 ────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
   const d = new Date();
   const days = ['日','月','火','水','木','金','土'];
   document.getElementById('header-date').textContent =
     `${d.getMonth()+1}月${d.getDate()}日（${days[d.getDay()]}）`;
   checkCarryover();
+  renderSelect();
   render();
+
+  document.getElementById('task-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') addTask();
+  });
+  document.getElementById('new-project-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') addTask();
+  });
 });
 
-// ─── Carryover check ───────────────────────────────────────
+// ─── 持ち越し ──────────────────────────────────────────────
 function checkCarryover() {
   if (data.date === today()) return;
   const incomplete = data.tasks.filter(t => !t.done);
-  const area = document.getElementById('carryover-area');
-  if (incomplete.length === 0) {
-    data.date = today();
-    saveData(data);
-    return;
-  }
-  area.innerHTML = `
+  if (incomplete.length === 0) { data.date = today(); saveData(); return; }
+  document.getElementById('carryover-area').innerHTML = `
     <div class="carryover-bar">
       <span>昨日の未完了タスクが <strong>${incomplete.length}件</strong> あります</span>
       <button class="btn-carryover" onclick="doCarryover()">今日に持ち越す</button>
-    </div>
-  `;
+    </div>`;
 }
 
 function doCarryover() {
-  data.tasks = data.tasks
-    .filter(t => !t.done)
-    .map(t => ({ ...t, carryover: true, done: false }));
+  data.tasks = data.tasks.filter(t => !t.done).map(t => ({ ...t, carryover: true, done: false }));
   data.date = today();
-  saveData(data);
+  saveData();
   document.getElementById('carryover-area').innerHTML = '';
   render();
 }
 
-// ─── Add tasks via AI ──────────────────────────────────────
-async function addTasks() {
-  const input = document.getElementById('task-input');
-  const text = input.value.trim();
-  if (!text) return;
-
-  const btn = document.getElementById('btn-add');
-  const bar = document.getElementById('loading-bar');
-  btn.disabled = true;
-  bar.classList.add('active');
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{
-          role: 'user',
-          content: `以下のタスクリストをJSON形式に整理してください。
-プロジェクト名は日本語で、タスクの内容から推測してください。
-同じプロジェクト・カテゴリのものはまとめてください。
-プロジェクトが不明なものは「その他」にしてください。
-
-タスク:
-${text}
-
-以下のJSON形式のみで返答してください（説明文不要）：
-[
-  {
-    "project": "プロジェクト名",
-    "tasks": ["タスク1", "タスク2"]
-  }
-]`
-        }]
-      })
-    });
-
-    const json = await res.json();
-    const content = json.content?.[0]?.text || '[]';
-    const clean = content.replace(/```json|```/g, '').trim();
-    const parsed = JSON.parse(clean);
-
-    const projectColors = ['#7A6A52','#5C8A6A','#6A7A9A','#8A6A7A','#7A8A5C','#9A7A5C','#6A8A7A','#8A7A52'];
-
-    // assign colors to new projects
-    const existingProjects = [...new Set(data.tasks.map(t => t.project))];
-    let colorIdx = existingProjects.length % projectColors.length;
-
-    for (const group of parsed) {
-      let color = projectColors[colorIdx % projectColors.length];
-      if (!existingProjects.includes(group.project)) {
-        colorIdx++;
-      } else {
-        // reuse existing color
-        const existing = data.tasks.find(t => t.project === group.project);
-        if (existing) color = existing.projectColor;
-      }
-      for (const taskLabel of group.tasks) {
-        data.tasks.push({
-          id: Date.now() + Math.random(),
-          project: group.project,
-          projectColor: color,
-          label: taskLabel,
-          done: false,
-          carryover: false,
-          date: today()
-        });
-      }
-    }
-
-    data.date = today();
-    saveData(data);
-    input.value = '';
-    render();
-
-  } catch (e) {
-    alert('AIとの通信に失敗しました。もう一度お試しください。');
-    console.error(e);
-  }
-
-  btn.disabled = false;
-  bar.classList.remove('active');
+// ─── プロジェクト選択 ──────────────────────────────────────
+function renderSelect() {
+  const sel = document.getElementById('project-select');
+  const current = sel.value;
+  sel.innerHTML = data.projects.map(p => `<option value="${p}">${p}</option>`).join('');
+  if (current && data.projects.includes(current)) sel.value = current;
 }
 
-// ─── Render ────────────────────────────────────────────────
+function toggleNewProject() {
+  showNewProject = !showNewProject;
+  const inp = document.getElementById('new-project-input');
+  const btn = document.getElementById('btn-newproj');
+  inp.style.display = showNewProject ? 'block' : 'none';
+  btn.textContent = showNewProject ? 'キャンセル' : '＋ プロジェクト';
+  if (showNewProject) inp.focus();
+}
+
+// ─── タスク追加 ────────────────────────────────────────────
+function addTask() {
+  const label = document.getElementById('task-input').value.trim();
+  if (!label) return;
+
+  let project = document.getElementById('project-select').value;
+
+  // 新プロジェクト
+  if (showNewProject) {
+    const np = document.getElementById('new-project-input').value.trim();
+    if (np && !data.projects.includes(np)) {
+      data.projects.push(np);
+      project = np;
+    } else if (np) {
+      project = np;
+    }
+    document.getElementById('new-project-input').value = '';
+    toggleNewProject();
+  }
+
+  const colorIdx = data.projects.indexOf(project) % PROJECT_COLORS.length;
+  data.tasks.push({
+    id: Date.now() + Math.random(),
+    project,
+    color: PROJECT_COLORS[colorIdx],
+    label,
+    done: false,
+    carryover: false,
+    date: today()
+  });
+
+  data.date = today();
+  saveData();
+  document.getElementById('task-input').value = '';
+  renderSelect();
+  render();
+}
+
+// ─── 描画 ──────────────────────────────────────────────────
 function render() {
   const area = document.getElementById('projects-area');
   const statsBar = document.getElementById('stats-bar');
 
   if (data.tasks.length === 0) {
-    area.innerHTML = `<div class="empty-state"><div class="big">✎</div>今日のタスクを入力してください</div>`;
+    area.innerHTML = `<div class="empty-state"><div class="empty-big">✎</div>タスクを入力してください</div>`;
     statsBar.style.display = 'none';
     return;
   }
 
-  // stats
   const total = data.tasks.length;
   const done = data.tasks.filter(t => t.done).length;
   statsBar.style.display = 'flex';
@@ -467,10 +430,9 @@ function render() {
   document.getElementById('stat-done').textContent = done;
   document.getElementById('stat-left').textContent = total - done;
 
-  // group by project
   const groups = {};
   for (const t of data.tasks) {
-    if (!groups[t.project]) groups[t.project] = { color: t.projectColor, tasks: [] };
+    if (!groups[t.project]) groups[t.project] = { color: t.color, tasks: [] };
     groups[t.project].tasks.push(t);
   }
 
@@ -478,38 +440,31 @@ function render() {
   for (const [proj, g] of Object.entries(groups)) {
     const doneCount = g.tasks.filter(t => t.done).length;
     const isCollapsed = collapsed[proj];
+    const key = CSS.escape('tl-' + proj);
     const block = document.createElement('div');
     block.className = 'project-block';
     block.innerHTML = `
-      <div class="project-header" onclick="toggleProject('${proj}')">
+      <div class="project-header" onclick="toggleProject(${JSON.stringify(proj)})">
         <div class="project-dot" style="background:${g.color}"></div>
         <div class="project-name">${proj}</div>
         <div class="project-count">${doneCount}/${g.tasks.length}</div>
         <div class="project-toggle">${isCollapsed ? '▶' : '▼'}</div>
       </div>
-      <div class="task-list" id="tl-${encodeProject(proj)}" style="${isCollapsed ? 'display:none' : ''}">
-        ${g.tasks.map(t => renderTask(t)).join('')}
+      <div class="task-list" id="tl-${proj}" ${isCollapsed ? 'style="display:none"' : ''}>
+        ${g.tasks.map(t => `
+          <div class="task-item ${t.done ? 'done' : ''}">
+            <div class="task-cb ${t.done ? 'checked' : ''}" onclick="toggleTask('${t.id}')"></div>
+            <div class="task-label">
+              ${t.label}
+              ${t.carryover ? '<span class="carryover-badge">持ち越し</span>' : ''}
+            </div>
+            <button class="task-del" onclick="deleteTask('${t.id}')">✕</button>
+          </div>
+        `).join('')}
       </div>
     `;
     area.appendChild(block);
   }
-}
-
-function encodeProject(name) {
-  return btoa(encodeURIComponent(name)).replace(/[^a-zA-Z0-9]/g, '_');
-}
-
-function renderTask(t) {
-  return `
-    <div class="task-item ${t.done ? 'done' : ''}" id="task-${t.id}">
-      <div class="task-cb ${t.done ? 'checked' : ''}" onclick="toggleTask('${t.id}')"></div>
-      <div class="task-body">
-        <div class="task-label">${t.label}</div>
-        ${t.carryover ? '<div class="task-meta"><span class="task-badge carryover">持ち越し</span></div>' : ''}
-      </div>
-      <button class="task-del" onclick="deleteTask('${t.id}')" title="削除">✕</button>
-    </div>
-  `;
 }
 
 function toggleProject(proj) {
@@ -519,19 +474,13 @@ function toggleProject(proj) {
 
 function toggleTask(id) {
   const t = data.tasks.find(t => String(t.id) === String(id));
-  if (t) { t.done = !t.done; saveData(data); render(); }
+  if (t) { t.done = !t.done; saveData(); render(); }
 }
 
 function deleteTask(id) {
   data.tasks = data.tasks.filter(t => String(t.id) !== String(id));
-  saveData(data);
-  render();
+  saveData(); render();
 }
-
-// Enter to submit
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) addTasks();
-});
 </script>
 </body>
 </html>
